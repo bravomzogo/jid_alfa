@@ -1,0 +1,143 @@
+{% extends 'durus/base.html' %}
+
+{% block title %}Add Lesson - Islamic Teachings{% endblock %}
+
+{% block content %}
+{% load static %}
+<style>
+    /* Container styling for centering and spacing */
+    .container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    /* Stylish form container */
+    .form-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        border-top: 4px solid #2c3e50;
+    }
+
+    /* Page title for emphasis */
+    .page-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #2c3e50;
+        text-align: center;
+    }
+
+    /* Form styling */
+    .lesson-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .lesson-form label {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+
+    .lesson-form input,
+    .lesson-form textarea {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+        border: 1px solid #dfe4ea;
+        border-radius: 8px;
+        outline: none;
+        transition: border-color 0.3s ease;
+    }
+
+    .lesson-form input:focus,
+    .lesson-form textarea:focus {
+        border-color: #2c3e50;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+    }
+
+    .submit-btn:hover {
+        background: linear-gradient(90deg, #2575fc, #6a11cb);
+        transform: scale(1.02);
+    }
+
+    /* Responsive design for smaller devices */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+
+        .form-container {
+            padding: 25px;
+        }
+
+        .page-title {
+            font-size: 24px;
+        }
+
+        .submit-btn {
+            font-size: 16px;
+            padding: 12px;
+        }
+    }
+     /* Styling for the link */
+     .cool-link {
+        display: inline-block;
+        padding: 12px 20px;
+        margin-top: 20px;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 0;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        text-align: center;
+        text-transform: uppercase;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .cool-link:hover {
+        background: linear-gradient(90deg, #2575fc, #6a11cb);
+        transform: scale(1.02);
+        color: white;
+    }
+
+    .cool-link:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+</style>
+<a href="{% url 'add_event' %}" class="cool-link">Add News if any</a><br>
+<a href="{% url 'upload-qur' %}" class="cool-link">Add quran</a>
+<div class="container">
+    <div class="form-container">
+        <h2 class="page-title">Add a New Lesson</h2>
+        <form method="post" class="lesson-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-btn">Save Lesson</button>
+        </form>
+    </div>
+    
+</div>
+
+{% endblock %}

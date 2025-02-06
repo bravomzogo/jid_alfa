@@ -1,0 +1,36 @@
+{% extends 'durus/base.html' %}
+
+{% block title %}114 Suras of the Qur'an{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">📖 114 Suras of the Qur'an</h2>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th class="text-center">Number</th>
+                <th class="text-center">Sura Name</th>
+                <th class="text-center">Audio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sura_item in suras_with_audio %}
+            <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td>{{ sura_item.sura }}</td>
+                <td class="text-center">
+                    {% if sura_item.audio %}
+                        <a href="{% url 'play_audio' sura_item.audio.id %}" class="btn btn-sm btn-primary">Play Audio</a>
+                        {% if sura_item.msomaji %}
+                            <span class="msomaji-name"> by: {{ sura_item.msomaji }}</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="text-muted">No Audio Available</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

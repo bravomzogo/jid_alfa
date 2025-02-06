@@ -1,0 +1,114 @@
+{% extends 'durus/base.html' %}
+
+{% block title %}Play Qur'an Audio{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="video-background">
+    <!-- Video background -->
+    <video autoplay muted loop>
+        <source src="{% static 'videos/jid11.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<div class="page-wrapper">
+    <div class="content-wrapper">
+        <div class="content-inner">
+            <h2>📖 Play Qur'an Audio</h2>
+            <div class="audio-section">
+                {% if audio %}
+                    <h4 class="msomaji-name">Reciter: {{ audio.msomaji }}</h4>
+                    <audio controls class="audio-player">
+                        <source src="{{ audio.audio.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% else %}
+                    <p>No audio available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .video-background video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        transform: translate(-50%, -50%);
+    }
+
+    .page-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: 100%; /* Fill the viewport height */
+    }
+
+    .content-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .content-inner {
+        max-width: 600px;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: white;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    .audio-section h4.msomaji-name {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    .audio-section .audio-player {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        display: block;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    p {
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+</style>
+{% endblock %}

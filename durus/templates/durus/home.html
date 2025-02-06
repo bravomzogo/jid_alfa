@@ -1,0 +1,117 @@
+{% extends 'durus/base.html' %}
+
+{% block title %}Home - Udom Durus{% endblock %}
+
+{% block content %}
+{% load static %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<style>
+    /* Video background styling */
+    .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 95%;
+        z-index: -1;
+        object-fit: cover;
+    }
+
+    /* Enhanced Listen Audio Button */
+    .btn-listen {
+        display: inline-block;
+        background-color: #e63c30; /* Vibrant red */
+        color: #fff; /* White text */
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 50px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-listen:hover {
+        background-color: #d12d25; /* Darker red on hover */
+        transform: translateY(-2px); /* Slight lift effect */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Increased shadow on hover */
+        color: #fff; /* Ensure text color remains white */
+    }
+
+    .btn-listen i {
+        margin-right: 8px; /* Space between icon and text */
+    }
+</style>
+
+<!-- Video background -->
+<video class="video-background" autoplay loop muted>
+    <source src="{% static 'videos/jid6.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-5 text-primary" style="color: gold !important;">📘 ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِي خَلَقَ</h2>
+    
+    <!-- Enhanced Search Bar -->
+    <div class="mb-4 position-relative">
+        <input 
+            type="text" 
+            class="form-control form-control-lg shadow-lg rounded-pill" 
+            placeholder="Search durus by particular Shekh..." 
+            id="searchInput" 
+            onkeyup="searchLessons()" 
+            style="padding-right: 3.5rem;"
+        />
+        <i 
+            class="fas fa-search position-absolute text-muted" 
+            style="right: 20px; top: 50%; transform: translateY(-50%); pointer-events: none;"
+        ></i>
+    </div>
+
+    <!-- List of Lessons -->
+    <div class="row" id="lessonList">
+        {% for lesson in lessons %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-lg border-0 rounded-3" style="background: rgba(255, 255, 255, 0.8);">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary" style="color: rgb(194, 37, 155) !important; font-family: 'Arial Narrow Bold', cursive;">
+                        {{ lesson.Shekh }} 
+                        {% if lesson.is_new %}
+                        <span class="badge bg-success ml-2">New</span>
+                        {% endif %}
+                        <p style="font-family: 'Times New Roman', Times, serif; color: brown; background-color: rgb(129, 231, 197); padding: 9px; margin-top: 6px;">Mada: {{lesson.Topic}}</p>
+                    </h5>
+                    <p style="background-color:rgb(116, 147, 206); padding: 7px; color: white;">{{ lesson.Description|slice:":100" }}...</p>
+                    <p style="padding-top: 10px;">{{lesson.date_created}}</p>
+                    <!-- Button to Listen Audio -->
+                    <a href="{% url 'lesson_audio' lesson.id %}" class="btn btn-listen mt-auto">
+                        <i class="fas fa-headphones-alt"></i> Listen Audio
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // Basic search functionality
+    function searchLessons() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let lessons = document.getElementById('lessonList').getElementsByClassName('col-md-4');
+
+        for (let i = 0; i < lessons.length; i++) {
+            let title = lessons[i].querySelector('.card-title').innerText.toLowerCase();
+            if (title.includes(input)) {
+                lessons[i].style.display = '';
+            } else {
+                lessons[i].style.display = 'none';
+            }
+        }
+    }
+</script>
+{% endblock %}

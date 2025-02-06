@@ -1,0 +1,25 @@
+{% extends 'durus/base.html' %}
+
+{% block title %}Islamic Calendar{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-success">🕌 Yearly Islamic Calendar</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th class="text-center">Gregorian Date</th>
+                <th class="text-center">Hijri Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in calendar %}
+                <tr>
+                    <td class="text-center">{{ day.gregorian }}</td>
+                    <td class="text-center">{{ day.hijri }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

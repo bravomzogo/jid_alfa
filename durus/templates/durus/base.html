@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Udom Durus{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        /* Basic Reset and Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 22px;
+            margin-left: 10px;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+        }
+
+        /* Video Logo */
+        .video-logo {
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+            overflow: hidden;
+            border-radius: 50%; /* Optional: Circular shape */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-logo video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #0b1c2c;
+            padding-top: 20px;
+            transition: 0.3s ease;
+            z-index: 200;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        /* Overlay for Sidebar */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 150;
+            display: none;
+        }
+
+        .overlay.visible {
+            display: block;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            margin-top: 50px;
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            
+        }
+
+        /* Sidebar Toggle Button */
+        .sidebar-toggle-btn {
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .close-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Dropdown Container */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            display: inline-block;
+            padding: 12px 20px;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 0;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        .dropdown-toggle:hover {
+            background: linear-gradient(90deg, #2575fc, #6a11cb);
+            transform: scale(1.02);
+            color: white;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 104%;
+            left: -129%;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            z-index: 200;
+            min-width: 300px;
+            padding: 10px 0;
+        }
+
+        .dropdown-item {
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-item:hover {
+            background-color: #d6d1d1;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        body.loading {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="loading">
+    <!-- Loader -->
+    <div id="loader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+        <div style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    </div>
+
+    <!-- Sidebar Toggle Button (Hamburger) -->
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">×</button><br>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'sura_list' %}">Quran</a>
+        <a href="{% url 'news_list' %}">News</a>
+        <a href="{% url 'admin_login' %}">Add Durus</a>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Header -->
+    <header>
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰</button>
+        <div class="video-logo">
+            <video autoplay muted loop>
+                <source src="{% static 'videos/jid10.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <h1>Udom Durus</h1>
+        <nav>
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">More</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'islamic-calender' %}" class="dropdown-item">Islamic Calendar</a>
+                    <a href="{% url 'home' %}#about" class="dropdown-item">About Us</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="content">
+        {% block content %}
+        <!-- Content will be inserted here -->
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Udom Durus. All rights reserved.</p>
+    </footer>
+
+    <!-- Sidebar Toggle Script -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const isOpen = sidebar.classList.contains('open');
+
+            if (isOpen) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('visible');
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('visible');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                document.body.classList.remove('loading');
+                loader.style.opacity = 0;
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 300);
+            }, 1000);
+        });
+
+        document.body.classList.add('loading');
+    </script>
+</body>
+</html>

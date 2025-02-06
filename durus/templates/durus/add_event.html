@@ -1,0 +1,104 @@
+{% extends 'durus/base.html' %}
+
+{% block title %}Add New Event{% endblock %}
+
+{% block content %}
+<style>
+    /* Main container */
+    .container {
+        background-color: #f9f9f9;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 2rem auto;
+    }
+
+    /* Heading */
+    h2.text-center {
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+
+    /* Form container */
+    .form-container {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Input fields */
+    .form-container input,
+    .form-container textarea,
+    .form-container select {
+        width: 100%;
+        padding: 8px 10px;
+        margin-bottom: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-container input:focus,
+    .form-container textarea:focus,
+    .form-container select:focus {
+        border-color: #6a11cb;
+        box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        outline: none;
+    }
+
+    /* Submit button */
+    .cool-btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .cool-btn:hover {
+        background: linear-gradient(90deg, #2575fc, #6a11cb);
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+        .container {
+            padding: 1rem;
+        }
+
+        h2.text-center {
+            font-size: 1.1rem;
+        }
+
+        .cool-btn {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center">📅 Add a New Event</h2>
+
+    <form method="POST" class="form-container">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="cool-btn">Add Event</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'durus/base.html' %}
+
+{% block title %}News Events{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-success">📅 News</h2>
+
+    <!-- Recent News Notification -->
+    <div class="mb-4">
+        {% if news %}
+            <div class="alert alert-info">
+                <h4 class="alert-heading">Recent News</h4>
+                {% with news|first as event %}
+                    <ul class="mb-0">
+                        <li>
+                            <strong>{{ event.Events }}</strong> by {{ event.Shekh }} at {{ event.Location }} on 
+                            {{ event.Time }}
+                        </li>
+                    </ul>
+                {% endwith %}
+            </div>
+        {% else %}
+            <p class="text-muted text-center">No recent news at the moment.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'durus/base.html' %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<style>
+    /* Main container */
+    body {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+
+    .login-container {
+        background: #fff;
+        color: #333;
+        border-radius: 3px;
+        padding: 3rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.9);
+        width: 150%;
+        max-width: 800px; /* Increased width for larger appearance */
+    }
+
+    /* Heading */
+    .login-container h2 {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 30px;
+        font-size: 1.8rem; /* Slightly larger font for the heading */
+        color: #6a11cb;
+    }
+
+    /* Form styling */
+    .form-container {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Input fields */
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #6a11cb;
+        box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        outline: none;
+    }
+
+    /* Submit button */
+    .btn-primary {
+        background: #6a11cb;
+        border: none;
+        font-weight: bold;
+        padding: 12px 0;
+        font-size: 1rem; /* Larger font size for the button */
+        border-radius: 25px; /* Rounded button */
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        background: #2575fc;
+        transform: scale(1.05); /* Slight hover effect */
+    }
+
+    /* Error message */
+    .error-message {
+        color: #e74c3c;
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Text center */
+    .text-center {
+        text-align: center;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+        .login-container {
+            padding: 2rem;
+            max-width: 90%; /* Ensure it fits smaller screens */
+        }
+
+        .login-container h2 {
+            font-size: 1.5rem;
+        }
+
+        .btn-primary {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="login-container">
+    <h2>Leaders Only</h2>
+    {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="username" class="form-label">Username</label>
+            <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                class="form-control" 
+                placeholder="Enter your username" 
+                required>
+        </div>
+        <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                class="form-control" 
+                placeholder="Enter your password" 
+                required>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
